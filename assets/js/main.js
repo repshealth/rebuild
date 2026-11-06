@@ -163,35 +163,41 @@
     if (!ok) { return; }
 
     var payload = {
-      firstName: name,
+      client: 'rebuild',
+      source: 'quiz',
+      form: 'Website check',
+      page: location.pathname,
+      utm_campaign: new URLSearchParams(location.search).get('utm_campaign') || '',
+      name: name,
       email: email,
       phone: phone,
-      source: 'Rebuild site check',
-      goal: answers.goal || '',
-      struggle: answers.struggle || '',
-      support: answers.support || ''
+      answers: {
+        'Main goal': answers.goal || '',
+        'Biggest struggle': answers.struggle || '',
+        'Support wanted': answers.support || ''
+      }
     };
 
-    // TODO: paste your GHL inbound webhook URL here
-    // (Automation > Workflows > Trigger > Inbound Webhook).
-    var WEBHOOK = '';
+    // Leads land in the REPS dashboard under the Rebuild client.
+    var LEADS_ENDPOINT = 'https://repshealthgrowth.com/api/forms';
 
     function done() {
       quiz.classList.remove('is-sending');
       goTo(5);
     }
 
-    if (!WEBHOOK) {
-      console.log('Rebuild lead (no webhook set yet):', payload);
-      done();
-      return;
-    }
-
     quiz.classList.add('is-sending');
-    fetch(WEBHOOK, {
+    fetch(LEADS_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).then(done).catch(done);
+    }).then(function (r) {
+      if (!r.ok) { console.error('Lead not accepted:', r.status); }
+      done();
+    }).catch(function (e) {
+      // Never strand the person on the form if the network fails.
+      console.error('Lead send failed:', e);
+      done();
+    });
   });
 })();

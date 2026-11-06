@@ -60,33 +60,41 @@ ffmpeg -ss 62 -i source.mov -frames:v 1 -q:v 2 poster.jpg
 
 The posters are graded to match the site and carry a gradient over the lower third, which knocks back the burned-in subtitles so the overlay title reads cleanly.
 
-## Wiring the quiz
+## Where the leads go
 
 The quiz is the only conversion point on the page. There is no checkout.
 
-Open `assets/js/main.js` and find:
+Submissions post to the REPS dashboard and land in Leads under the **Rebuild** client:
 
-```js
-var WEBHOOK = '';
+```
+POST https://repshealthgrowth.com/api/forms
 ```
 
-Paste the inbound webhook URL from the GHL workflow. Until it is set, submissions log to the browser console and the success screen still shows, so the flow can be tested before it is wired.
-
-The payload posted:
+The payload:
 
 ```json
 {
-  "firstName": "",
+  "client": "rebuild",
+  "source": "quiz",
+  "form": "Website check",
+  "page": "/",
+  "utm_campaign": "",
+  "name": "",
   "email": "",
   "phone": "",
-  "source": "Rebuild site check",
-  "goal": "",
-  "struggle": "",
-  "support": ""
+  "answers": {
+    "Main goal": "",
+    "Biggest struggle": "",
+    "Support wanted": ""
+  }
 }
 ```
 
-`support` is the field that routes the lead. The two lower options are membership leads. "I want a coach checking in on me" and "I want James in my corner directly" are one-to-one conversations and want a different follow-up.
+A new email creates a lead in New lead. A returning email adds to that lead's timeline rather than creating a duplicate.
+
+**Support wanted** is the field that routes the lead. "Just the app, I will crack on" and "The app, plus other blokes doing the same" are membership leads. "I want a coach checking in on me" and "I want James in my corner directly" are one-to-one conversations and want a different follow-up.
+
+The endpoint is set in `assets/js/main.js` as `LEADS_ENDPOINT`. If the request fails the person still sees the thank-you screen, so a network problem never strands them on the form. Failures are logged to the browser console.
 
 ## Editing content
 
