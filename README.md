@@ -12,7 +12,9 @@ assets/
   css/styles.css               all styling
   js/main.js                   nav, scroll reveals, app showcase, quiz
   img/
-    favicon.svg
+    favicon.png                brand mark, used as the tab icon
+    logo-lockup.png            the header and footer logo
+    logo-mark.png              the mark on its own
     app/                       eight app screenshots
     photos/                    photography of James
     video/                     poster frames for the two videos
