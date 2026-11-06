@@ -115,9 +115,8 @@ Each question is one `div.quiz-step` with a `data-step` number, holding a `div.q
 
 ## Assets still needed
 
-- **Programme covers** for Foundation, The Comeback and Game Ready. Three dashed placeholders are on the page.
 - **App screenshots re-shot on a demo account.** Every current screenshot is the test account, so "Test User", "Test's Meal Plan" and "onboarding@repshealth.com" are visible, and most figures read zero. It shows prospects an app nobody uses.
-- **More photography.** There are only two photographs of James and both are in use. The one in the one-to-one section is a shirtless physique shot, which pulls against the everyday-man positioning the copy is built on. A shot of him coaching or talking would suit that section far better.
+- **Nothing blocking on photography.** Six images are in use: three programme covers, one for Meet James, the podium shot for one-to-one, and the wide gym shot behind the closing call to action.
 
 ## Conventions
 
